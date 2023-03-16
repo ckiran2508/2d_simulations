@@ -1,0 +1,1 @@
+function draw(t,o){t.beginPath(),t.arc(o.position.getX(),o.position.getY(),o.radius,0,2*Math.PI),t.fillStyle=o.colour,t.fill(),t.stroke(),t.closePath()}function randomNumberRange(t,o){return t+Math.random()*(o-t)}

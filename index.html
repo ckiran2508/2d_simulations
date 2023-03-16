@@ -1,0 +1,77 @@
+<html><head>
+  <title></title>
+
+<link rel="stylesheet" href="style.css"/>
+<script type="text/javascript" src="vector.js"></script>
+<script type="text/javascript" src="particle.js"></script>
+<script type="text/javascript" src="utils.js"></script>
+<script type="text/javascript" src="loader.js" ></script>
+</head>
+<body onload="loadJS('electrostatic_lens.js');">
+ <div id="root"><header>
+<div class="nav-container">
+<div class="logo-container">
+2D Simulations
+</div>
+<div class="github-about">
+</div>
+</div>
+</header>
+
+<div class="container">
+<div class="left">
+<ul id="all-topics">
+<p>Topics</p>
+<li><a onClick="loadJS('electrostatic_lens.js');">Electrostatic Lens (Bethe's Law)</a></li>
+<li><a onClick="loadJS('electron_motion.js');">Charge Motion in a Magnetic field</a></li>
+<li><a onClick="loadJS('newtons_cradle.js');">Newton's Cradle</a></li>
+<li><a onClick="loadJS('elastic_collision.js');">Elastic Collision</a></li>
+<li><a onClick="loadJS('point_gravity.js');">Point Gravity</a></li>
+<li><a onClick="loadJS('surface_gravity.js');">Surface Gravity</a></li>
+<li><a onClick="loadJS('guassian_blur.js');">Guassian Blur</a></li>
+</ul>
+</div>
+
+<div class="main">
+
+  <div id="btn-group" style="display:none;z-index:2">
+    <div id="accelerating-anode" style="top:600; left:360; position:absolute;">
+      <input type="button" style="margin-right:30px;padding:3px;width:170px"  value="Hide Electric Field Vectors"/>
+      <input class="number-input-btn" type="button"  value="-"/>
+      <input class="number-input" type="text" value="0.4 kV" readonly="readonly"/>
+      <input class="number-input-btn" type="button"  value="+"/>
+    </div>
+    <div id="focusing-anode" style="top:600; left:780; position:absolute;">
+      <input class="number-input-btn" type="button"  value="-"/>
+      <input class="number-input" type="text" value="1.0 kV" readonly="readonly"/>
+      <input class="number-input-btn" type="button"  value="+"/>
+    </div>
+    <div style="top:602; left:950; position:absolute;">
+      <input id="reset" type="button" style="padding:3px" value="RESET"/>
+    </div>
+  </div>
+
+
+<canvas style="z-index:1" id="myCanvas" width="900" height = "570">
+</canvas>
+</div>
+
+<div class="right">
+
+</div>
+
+</div>
+
+<footer>
+<div class="center">
+<b>Developer</b>: Kiran Channayanamath
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<b>Linkedin</b>: <u>https://www.linkedin.com/in/kiran-channayanamath/</u>
+</div>
+</footer>
+</div>
+
+</body></html>
