@@ -4,10 +4,11 @@
 <link rel="stylesheet" href="style.css"/>
 <script type="text/javascript" src="vector.js"></script>
 <script type="text/javascript" src="particle.js"></script>
+<script type="text/javascript" src="wire.js"></script>
 <script type="text/javascript" src="utils.js"></script>
 <script type="text/javascript" src="loader.js" ></script>
 </head>
-<body onload="loadJS('electrostatic_lens.js');">
+<body onload="loadJS('standing_waves.js');">
  <div id="root"><header>
 <div class="nav-container">
 <div class="logo-container">
@@ -22,6 +23,7 @@
 <div class="left">
 <ul id="all-topics">
 <p>Topics</p>
+<li><a onClick="loadJS('standing_waves.js');">Standing Waves</a></li>
 <li><a onClick="loadJS('electrostatic_lens.js');">Electrostatic Lens (Bethe's Law)</a></li>
 <li><a onClick="loadJS('electron_motion.js');">Charge Motion in a Magnetic field</a></li>
 <li><a onClick="loadJS('newtons_cradle.js');">Newton's Cradle</a></li>
