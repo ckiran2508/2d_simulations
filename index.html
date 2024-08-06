@@ -2,17 +2,13 @@
   <title></title>
 
 <link rel="stylesheet" href="style.css"/>
-<script type="text/javascript" src="vector.js"></script>
-<script type="text/javascript" src="particle.js"></script>
-<script type="text/javascript" src="wire.js"></script>
-<script type="text/javascript" src="utils.js"></script>
-<script type="text/javascript" src="loader.js" ></script>
+
 </head>
-<body onload="loadJS('electrostatic_lens.js');">
+<body onload="loadJS('threeD/two_dwave.js');">
  <div id="root"><header>
 <div class="nav-container">
 <div class="logo-container">
-2D Simulations
+JS Simulator
 </div>
 <div class="github-about">
 </div>
@@ -23,19 +19,31 @@
 <div class="left">
 <ul id="all-topics">
 <p>Topics</p>
-<li><a onClick="loadJS('standing_waves.js');">Standing Waves</a></li>
-<li><a onClick="loadJS('electrostatic_lens.js');">Electrostatic Lens (Bethe's Law)</a></li>
-<li><a onClick="loadJS('electron_motion.js');">Charge Motion in a Magnetic field</a></li>
-<li><a onClick="loadJS('newtons_cradle.js');">Newton's Cradle</a></li>
-<li><a onClick="loadJS('elastic_collision.js');">Elastic Collision</a></li>
-<li><a onClick="loadJS('point_gravity.js');">Point Gravity</a></li>
-<li><a onClick="loadJS('surface_gravity.js');">Surface Gravity</a></li>
-<li><a onClick="loadJS('guassian_blur.js');">Guassian Blur</a></li>
+<li><a onClick="invokeJS('threeD$two_dwave');">Two D Wave</a></li>
+<li><a onClick="invokeJS('standing_waves');">Standing Waves</a></li>
+<li><a onClick="invokeJS('electrostatic_lens');">Electrostatic Lens (Bethe's Law)</a></li>
+<li><a onClick="invokeJS('electron_motion');">Charge Motion in a Magnetic field</a></li>
+<li><a onClick="invokeJS('newtons_cradle');">Newton's Cradle</a></li>
+<li><a onClick="invokeJS('elastic_collision');">Elastic Collision</a></li>
+<li><a onClick="invokeJS('point_gravity');">Point Gravity</a></li>
+<li><a onClick="invokeJS('surface_gravity');">Surface Gravity</a></li>
+<li><a onClick="invokeJS('guassian_blur');">Guassian Blur</a></li>
 </ul>
 </div>
 
+<script>
+  function invokeJS(name){
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    params.set('name', name);
+    url.search = params.toString();
+    window.location.href = url
+  }
+</script>
+
 <div class="main">
 
+ 
   <div id="btn-group" style="display:none;z-index:2">
     <div id="accelerating-anode" style="top:600; left:360; position:absolute;">
       <input type="button" style="margin-right:30px;padding:3px;width:170px"  value="Hide Electric Field Vectors"/>
@@ -53,17 +61,161 @@
     </div>
   </div>
 
+  <div>
+    <div id="positionValues" style="top:110; left:950; position:absolute;font-size: x-small;">
 
-<canvas style="z-index:1" id="myCanvas" width="900" height = "570">
+    </div>
+  </div>
+
+
+<canvas style="z-index:1" id="myCanvas" >
 </canvas>
-</div>
-
-<div class="right">
 
 </div>
 
+<div style="display:none;z-index:2" id="simButtons">
+  <fieldset>
+    <legend><b>Controls</b></legend>
+    <div style="display:flex;justify-content:center;align-items:center;font-size:small;padding:5px;padding-left:10px;">
+      <button id="run" type="button">
+        <span>Run</span>
+      </button>
+      <button id="stop" type="button">
+        <span>Stop</span>
+      </button>
+      <button id="resetView" type="button">
+        <span>Reset View</span>
+      </button>
+      <button id="resetAll" type="button">
+        <span>Reset All</span>
+      </button>
+  </fieldset>
+  <fieldset>
+    <legend><b>Initial Conditions</b></legend>
+    <div style="display:flex;font-size:small;">
+    <fieldset style="width:50%;">
+      <legend>Medium</legend>
+    <div class="input-container"style="display:flex;justify-content:space-evenly;align-items: center;">
+      <label>x-pos:</label>
+      <input id="xpos" type="number"  class="input-field candisable">
+    </div>
+    <div class="input-container;" style="display:flex;justify-content: space-evenly;align-items: center;">
+      <label>y-pos:</label>
+      <input id="ypos" type="number"  class="input-field candisable">
+    </div>
+    <div class="input-container;" style="display:flex;justify-content: space-evenly;align-items: center;">
+      <label>z-pos:</label>
+      <input id="zpos" type="number" class="input-field candisable">
+    </div>
+    <div class="input-container;" style="display:flex;justify-content: space-evenly;align-items: center;">
+      <label>size:&nbsp;&nbsp;</label>
+      <input id="size" type="number" min="100" max="600" class="input-field candisable" step="100">
+    </div>
+    <button id="resetPositionButton" class="btnsmall candisable">Reset</button>
+    </fieldset>
+    <fieldset style="width:50%">
+      <legend>Bulge</legend>
+      <div style="text-align:center;">
+      <div class="input-container"style="display:flex;justify-content: flex-end;align-items: center;">
+        <label>x:</label>
+        <input id="bulgex" class="slider candisable" type="range" >
+        <input id="bulgexLabel" type="number" class="input-field label-input candisable" readonly>
+      </div>
+      <div class="input-container;" style="display:flex;justify-content: flex-end;align-items: center;">
+        <label>y:</label>
+        <input id="bulgey"  class="slider candisable" type="range" >
+        <input id="bulgeyLabel" type="number"  class="input-field label-input candisable" readonly>
+      </div>
+      <div class="input-container;" style="display:flex;justify-content: flex-end;align-items: center;">
+        <label>height:</label>
+        <input id="bulgeHeight"  class="slider candisable" type="range" min="-3" max="3" step="0.1">
+        <input id="bulgeHeightLabel" type="number" class="input-field label-input candisable" readonly>
+      </div>
+      <div class="input-container;" style="display:flex;justify-content: flex-end;align-items: center;">
+        <label>spread:</label>
+        <input id="bulgeSpread" class="slider candisable" type="range" min="5" max="100" step="1" >
+        <input id="bulgeSpreadLabel" type="number"  class="input-field label-input candisable" readonly>
+      </div>
+      <button id="addBulgeButton" class="btnsmall candisable">Add</button>
+      <button id="removeBulgeButton" class="btnsmall candisable">Remove</button>
+      <button id="clearBulgeButton" class="btnsmall candisable">Clear</button>
+    </div>  
+    </fieldset>
+  </fieldset>   
+
+  <fieldset>
+    <legend><b>Boundary Conditions</b></legend>
+    <div style="display:flex;font-size:small;padding:5px;padding-left: 10px;">
+      <input type="radio" id="direchlet" name="bc" value="direchlet" class="candisable" checked>
+        <label style="font-size: small;padding: 4px;" for="direchlet" >Dirichlet</label><br>
+         <input  type="radio" id="von_neumann" name="bc" value="von_neumann" class="candisable">
+        <label style="font-size: small;padding: 4px;"for="von_neumann">Neumann</label><br>
+      <input  type="radio" id="robin" name="bc" value="robin" disabled>
+        <label style="font-size: small;padding: 4px;"for="robin">Robin(radiation)</label><br>
+    </div>
+  </fieldset>   
+  <fieldset>
+    <legend><b>Miscellaneous</b></legend>
+    <div style="display:flex;font-size:small;">
+    <fieldset style="width:50%;">
+      <legend>Medium</legend>
+    <div class="input-container"style="display:flex;justify-content: flex-end;align-items: center;">
+      <label>Wave speed c :</label>
+      <input id="wavespeed" type="number" min="1" max="20"  class="input-field candisable">
+    </div>
+    <div class="input-container;" style="display:flex;justify-content: flex-end;align-items: center;">
+      <label>Impedence %:</label>
+      <input id="impedence" type="number" min="0" max="10" class="input-field candisable">
+    </div>
+    <div class="input-container;" style="display:flex;justify-content: flex-end;align-items: center;">
+      <label>Boundary absorption %:</label>
+      <input id="absorption" type="number" min="0" max="10"  class="input-field" disabled>
+    </div>
+    <div class="input-container;" style="display:flex;justify-content: flex-end;align-items: center;">
+      <label>Medium resolution:</label>
+      <input id="resolution" type="number" min="10" max="60"  class="input-field" step="10" disabled>
+    </div>
+    <button id="resetMiscellaneousButton" class="btnsmall candisable">Reset</button>
+    </fieldset>
+    <fieldset style="width:50%">
+      <legend>Color</legend>
+      <div class="input-container"style="display:flex;justify-content: flex-end;align-items: center;">
+        <label>R:</label>
+        <input id="colorRed" class="slider candisable" type="range" min="0" max="255" step="1">
+        <input id="colorRedLabel" type="number" class="input-field label-input candisable" readonly>
+      </div>
+      <div class="input-container;" style="display:flex;justify-content: flex-end;align-items: center;">
+        <label>G:</label>
+        <input id="colorGreen"  class="slider candisable" type="range" min="0" max="255" step="1">
+        <input id="colorGreenLabel" type="number"  class="input-field label-input candisable" readonly>
+      </div>
+      <div class="input-container;" style="display:flex;justify-content: flex-end;align-items: center;">
+        <label>B:</label>
+        <input id="colorBlue" class="slider candisable" type="range" min="0" max="255" step="1">
+        <input id="colorBlueLabel" type="number"  class="input-field label-input candisable" readonly>
+      </div>
+      <div class="input-container;" style="display:flex;justify-content: flex-end;align-items: center;">
+        <label>Gradient:</label>
+        <input id="gradient"  class="slider candisable" type="range" min="1" max="20" >
+        <input id="gradientLabel" type="number"  class="input-field label-input candisable" readonly>
+      </div>
+      <button id="resetColorButton" class="btnsmall candisable">Reset</button>
+    </fieldset>
+  </fieldset>   
+  <fieldset>
+    <div style="display:flex;justify-content:center;align-items:center;font-size:small;padding:2px;padding-left: 10px;">
+      <label>Zoom:</label>
+      <input id="zoomSlider" style="width:40%;" class="slider" type="range" min="1" max="200" >
+      <input id="zoomSliderLabel"  class="input-field label-input">
+</div>
+</fieldset>
+<div class="message">
+ Use arrow keys and shift+arrow keys to navigate
 </div>
 
+ </div>
+
+</div>
 <footer>
 <div class="center">
 <b>Developer</b>: Kiran Channayanamath
@@ -75,5 +227,22 @@
 </div>
 </footer>
 </div>
-
+<script type="text/javascript" src="vector.js"></script>
+<script type="text/javascript" src="particle.js"></script>
+<script type="text/javascript" src="rod.js" ></script>
+<script type="text/javascript" src="wire.js"></script>
+<script type="text/javascript" src="utils.js"></script>
+<script type="text/javascript" src="lbar.js"></script>
+<script type="text/javascript" src="collisionphysics.js"></script>
+<script type="text/javascript" src="loader.js" ></script>
+<script type="text/javascript" src="threeD/vector3d.js"></script>
+<script type="text/javascript" src="threeD/polygon3D.js"></script>
+<script type="text/javascript" src="threeD/threeDObject.js"></script>
+<script type="text/javascript" src="threeD/view_port.js"></script>
+<script type="text/javascript" src="threeD/point.js"></script>
+<script type="text/javascript" src="threeD/polygon2D.js"></script>
+<script type="text/javascript" src="threeD/twoDObject.js"></script>
+<script type="text/javascript" src="threeD/projector.js"></script>
+<script type="text/javascript" src="threeD/vector3DOps.js"></script>
+<script type="text/javascript" src="threeD/mesh.js"></script>
 </body></html>
